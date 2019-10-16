@@ -28,5 +28,12 @@ Bar height changes dynamically based on year and location of the rental apartmen
 * `D3.JS` + `HTML5` + `CSS` for interactive visualization
 * `Webpack` + `Babel` to bundle js files
 
+### Timeline:
+* select-topic and find data and APIs (1day, 10/14/2019)
+* render map on html with d3 (1day, 10/15/2019)
+* render data on map (1day, 10/16/2019)
+* render data as 3d on map (1day, 10/17/2019)
+* make data interactive with different years and different apartment types (1day, 10/18/2019)
+
 
 
