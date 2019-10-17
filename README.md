@@ -1,153 +1,39 @@
-`git init`
+## Manhattan_housing: A data visualization of rental price in Manhattan changing over the years
 
-create .gitignore and add `/node_modules/`
+### Overview
+This data reflects the rental price of different types of apartments changing over the years in Manhattan. It can be used to predict the future trends of the housing price in manhattan region.
 
-`npm init` and follow prompts
+### Functionality & MVP
+Manhattan_housing users are able to:
+- [ ] See a 3d map of the rental prices of different types of housing at different zipcode in manhattan
+- [ ] drag the time axis to review the specific time of the rental prices
+- [ ] check/uncheck the apartment type to view a specific time of the rental prices.
 
-```
-npm install @babel/core @babel/preset-env autoprefixer babel-loader css-loader mini-css-extract-plugin fibers node-sass postcss-loader sass sass-loader style-loader webpack webpack-cli webpack-dev-server webpack-merge
+In addition, this project contains:
+- [ ] A production README
 
-```
+### Data & APIs
+rental price data is freely available through APIs.
 
-create basic `/src` subdirectory file structure
+### Wireframe
+This visualization consists of a single screen (a) containing a map with rental price graph (b), which is interative by years through the time bar (c) or the apartment type selection (e). It also have a block (d) to display the range of prices represented by colors.
 
-```
-- src/
-    - index.js
-    styles/
-        - index.scss
-    scripts/
+![alt text](Homepage.png)
 
-```
+### Design
+Bar height changes dynamically based on year and location of the rental apartment. On dragging the time bar, the rental price of the corresponding year on the location will be displayed at correct height and color.
 
-in root directory, create `webpack.common.js`
+### Architecture & Technologies
+* `JavaScript` for data retrieval and computation
+* `D3.JS` + `HTML5` + `CSS` for interactive visualization
+* `Webpack` + `Babel` to bundle js files
 
-```JavaScript
-const path = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const outputDir = "./dist";
+### Timeline:
+* select-topic and find data and APIs (1day, 10/14/2019)
+* render map on html with d3 (1day, 10/15/2019)
+* render data on map (1day, 10/16/2019)
+* render data as 3d on map (1day, 10/17/2019)
+* make data interactive with different years and different apartment types (1day, 10/18/2019)
 
-module.exports = {
-    entry: path.resolve(__dirname, "src", "index.js"), //
-    output: {
-        path: path.join(__dirname, outputDir),
-        filename: "[name].js",
-        publicPath: "/dist/"
-    },
-    resolve: {
-        extensions: [".js"] // if we were using React.js, we would include ".jsx"
-    },
-    module: {
-        rules: [{
-                test: /\.js$/, // if we were using React.js, we would use \.jsx?$/
-                use: {
-                    loader: "babel-loader",
-                    options: {
-                        presets: ["@babel/preset-env"],
-                        exclude: /node_modules/
-                    } // if we were using React.js, we would include "react"
-                }
-            },
-            {
-                test: /\.css$/,
-                use: [{
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {
-                            // you can specify a publicPath here
-                            // by default it uses publicPath in webpackOptions.output
-                            publicPath: "../",
-                            hmr: process.env.NODE_ENV === "development"
-                        }
-                    },
-                    "css-loader",
-                    "postcss-loader"
-                ]
-            },
-            {
-                test: /\.scss/,
-                use: [{
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {
-                            // you can specify a publicPath here
-                            // by default it uses publicPath in webpackOptions.output
-                            publicPath: "../",
-                            hmr: process.env.NODE_ENV === "development"
-                        }
-                    },
-                    "css-loader",
-                    "sass-loader",
-                    "postcss-loader"
-                ]
-            }
-        ]
-    },
-    plugins: [new MiniCssExtractPlugin({
-        // Options similar to the same options in webpackOptions.output
-        // all options are optional
-        filename: "[name].css",
-        chunkFilename: "[id].css",
-        ignoreOrder: false // Enable to remove warnings about conflicting order
-    }), require("autoprefixer")]
-};
-```
 
-Create `webpack.dev.js`
 
-```JavaScript
-const merge = require("webpack-merge");
-const common = require("./webpack.common.js");
-
-module.exports = merge(common, {
-    mode: "development",
-    devtool: "inline-source-map",
-    devServer: {
-        contentBase: "./",
-        watchContentBase: true,
-        open: "Google Chrome"
-    }
-});
-```
-
-Create `webpack.prod.js`
-
-```JavaScript
-const merge = require("webpack-merge");
-const common = require("./webpack.common.js");
-
-module.exports = merge(common, {
-    mode: "production",
-    devtool: "source-map"
-});
-```
-
-create `postcss.config.js`
-
-```JavaScript
-module.exports = {
-    plugins: {
-        autoprefixer: {}
-    }
-};
-```
-
-add `browserlist` key and update `scripts` in `package.json`
-
-```JavaScript
-  "browserslist": [
-    "last 1 version",
-    "> 1%",
-    "maintained node versions",
-    "not dead"
-  ],
-  "scripts": {
-    "start": "webpack-dev-server --config webpack.dev.js",
-    "webpack:watch": "webpack --watch --config webpack.dev.js",
-    "webpack:build": "webpack --config webpack.prod.js  --optimize-minimize"
-  },
-```
-
-create `index.scss` in `/src/styles`
-
-create `index.js` in `/src` directory and import style `/src/styles/index.scss`
-
-create `index.html` and import `dist/main.css` and `dist/main.js` appropriately
