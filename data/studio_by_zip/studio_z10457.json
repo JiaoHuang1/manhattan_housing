@@ -1,0 +1,153 @@
+{
+    "dataset": {
+    "id": 42203462,
+    "dataset_code": "Z10457_MRPST",
+    "database_code": "ZILLOW",
+    "name": "Zillow Home Value Index (Zip): Median Rental Price - Studio - 10457, New York, NY",
+    "description": "The Zillow Home Value Index is Zillow's estimate of the median market value of median rental price - studio within the zip of 10457, New York, NY. This data is calculated by Zillow Real Estate Research (www.zillow.com/research) using their database of 110 million homes.",
+    "refreshed_at": "2019-10-11T08:59:48.708Z",
+    "newest_available_date": "2019-08-31",
+    "oldest_available_date": "2017-01-31",
+    "column_names": [
+    "Date",
+    "Value"
+    ],
+    "frequency": "monthly",
+    "type": "Time Series",
+    "premium": false,
+    "limit": null,
+    "transform": null,
+    "column_index": null,
+    "start_date": "2017-01-31",
+    "end_date": "2019-08-31",
+    "data": [
+    [
+    "2019-08-31",
+    1475
+    ],
+    [
+    "2019-07-31",
+    1475
+    ],
+    [
+    "2019-06-30",
+    1425
+    ],
+    [
+    "2019-05-31",
+    1500
+    ],
+    [
+    "2019-04-30",
+    1372.5
+    ],
+    [
+    "2019-03-31",
+    1450
+    ],
+    [
+    "2019-02-28",
+    1450
+    ],
+    [
+    "2019-01-31",
+    1500
+    ],
+    [
+    "2018-12-31",
+    1495
+    ],
+    [
+    "2018-11-30",
+    1425
+    ],
+    [
+    "2018-10-31",
+    1512
+    ],
+    [
+    "2018-09-30",
+    1600
+    ],
+    [
+    "2018-08-31",
+    1750
+    ],
+    [
+    "2018-07-31",
+    1500
+    ],
+    [
+    "2018-06-30",
+    1412.5
+    ],
+    [
+    "2018-05-31",
+    1535
+    ],
+    [
+    "2018-03-31",
+    1500
+    ],
+    [
+    "2018-02-28",
+    1395
+    ],
+    [
+    "2018-01-31",
+    1374
+    ],
+    [
+    "2017-12-31",
+    1300
+    ],
+    [
+    "2017-11-30",
+    1300
+    ],
+    [
+    "2017-10-31",
+    1339
+    ],
+    [
+    "2017-09-30",
+    1374
+    ],
+    [
+    "2017-08-31",
+    1350
+    ],
+    [
+    "2017-07-31",
+    1350
+    ],
+    [
+    "2017-06-30",
+    1325
+    ],
+    [
+    "2017-05-31",
+    1250
+    ],
+    [
+    "2017-04-30",
+    1250
+    ],
+    [
+    "2017-03-31",
+    1250
+    ],
+    [
+    "2017-02-28",
+    1250
+    ],
+    [
+    "2017-01-31",
+    1200
+    ]
+    ],
+    "collapse": null,
+    "order": null,
+    "database_id": 15274
+    }
+    }
