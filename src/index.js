@@ -20,8 +20,8 @@ var threebed_z11238 = require('../data/threebed_by_zip/threebed_z11238.json');
 window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('app').innerText = "Hello World!";
         // Width and Height of the whole visualiation
-        var width = 1000;
-        var height = 1100;
+        var width = 1200;
+        var height = 600;
 
         // create SVG
         var svg = d3.select( "body" )
@@ -36,11 +36,13 @@ window.addEventListener('DOMContentLoaded', () => {
         // Width and Height of the whole visualization
         // Set Projection Parameters
         var albersProjection = d3.geoAlbers()
-            .scale( 100000 )
-            .rotate( [74.071, 0] )
-            .center( [0, 40.783] )
+            .scale( 250000 )
+            .rotate( [0, 0] )
+            .center( [-73.93653, 40.775] )
             .translate( [width/2,height/2] );
 
+
+            // [40.750742, -73.99653]
         // Create GeoPath function that uses built-in D3 functionality to turn
         // lat/lon coordinates into screen coordinates
         var geoPath = d3.geoPath()
@@ -127,7 +129,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         // Classic D3... Select non-existent elements, bind the data, append the elements, and apply attributes
-        d3.json("data/new_york_map_by_zip.json", newyork_data => {
+        d3.json("data/manhattan_by_zip.json", newyork_data => {
             // console.log(newyork_data);
             g.selectAll( "path" )
                 .data( newyork_data.features )
@@ -158,8 +160,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
         // for time slider
-        var inputValue = null;
-        var inputType = null;
+        var inputValue = "Year";
+        var inputType = "Type";
         var year = ["Year", "2012","2013","2014","2015","2016","2017","2018","2019"];
         var type = ["Type", "Studio", "One Bedroom", "Two Bedroom", "Three Bedroom"]
 
