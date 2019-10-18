@@ -80,6 +80,14 @@ window.addEventListener('DOMContentLoaded', () => {
                         .data(data)
                         .enter()
                         .append("g")
+                        .attr("class", function(d) {return `Y${d[0]} ${apt_type}`})
+                        .style("visibility", "hidden")
+                        .attr("value", function(d) {
+                            return Math.floor(d[1])
+                        })
+                        .attr("id", function(d) {
+                            return d[2]
+                        })
 
             gg.append("circle")
             .attr("cx", albersProjection(coord)[0])
@@ -88,8 +96,8 @@ window.addEventListener('DOMContentLoaded', () => {
             .attr("fill", function(d) {
                 return covertPriceToColor(d[1])
             })
-            .attr("class", function(d) {return `Y${d[0]} ${apt_type}`})
-            .style("visibility", "hidden")
+            // .attr("class", function(d) {return `Y${d[0]} ${apt_type}`})
+            // .style("visibility", "hidden")
 
             gg.append("line")
             .attr("x1", albersProjection(coord)[0])
@@ -100,8 +108,8 @@ window.addEventListener('DOMContentLoaded', () => {
             .attr("stroke", function(d) {
                 return covertPriceToColor(d[1])
             })
-            .attr("class", function(d) {return `Y${d[0]} ${apt_type}`})
-            .style("visibility", "hidden")
+            // .attr("class", function(d) {return `Y${d[0]} ${apt_type}`})
+            // .style("visibility", "hidden")
 
             gg.append("text")
             .text(function(d) {return `${apt_type} : ${d[0]} : ${Math.floor(d[1])}`})
@@ -111,8 +119,8 @@ window.addEventListener('DOMContentLoaded', () => {
             .style("fill", function(d) {
                 return covertPriceToColor(d[1])
             })
-            .attr("class", function(d) {return `Y${d[0]} ${apt_type}`})
-            .style("visibility", "hidden")
+            // .attr("class", function(d) {return `Y${d[0]} ${apt_type}`})
+            // .style("visibility", "hidden")
             .on("mouseover", function() {
                 d3.select(this)
                     .transition()
@@ -149,7 +157,7 @@ window.addEventListener('DOMContentLoaded', () => {
             Object.keys(year_avg).forEach(year => {
                 let sum = year_avg[year].reduce((a, b) => a + b);
                 let avg = sum / year_avg[year].length;
-                data.push([year, avg])
+                data.push([year, avg, zip])
             })
            
             pinDataToMap(coord, apt_type, data);
@@ -163,7 +171,12 @@ window.addEventListener('DOMContentLoaded', () => {
                 .append( "path" )
                 .attr( "fill", "#a9a9aa" )
                 .attr( "stroke", "#ffffff")
-                .attr( "d", geoPath );
+                .attr( "d", geoPath )
+                .attr( "id", function(d) {
+                    console.log('find zip')
+                    console.log(d.properties.zcta)
+                    return d.properties.zcta;
+                })
                
        
             zipcodeForStudio.forEach(zip => {
@@ -232,7 +245,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 })
             })
         }
-
+        var price_with_zipcode = [];
         function update_type(value) {
             document.getElementById("type-range").innerHTML=type[value];
             inputType = type[value];
@@ -240,18 +253,32 @@ window.addEventListener('DOMContentLoaded', () => {
             type.forEach(type => {
                 d3.selectAll(convertType(type)).style("visibility", function() {
                     currentYear = this.className.baseVal.split(" ")[0];
+                    
                     // d3.selectAll("text").select(.inputType)
                     // return (inputType === type && currentYear === `Y${inputYear}`) ? "visible" : "hidden"
                     if (inputType === type && currentYear === `Y${inputYear}`) {
+                        // console.log(d3.select(this).getAttribute("id"))
                         console.log(this)
+                        console.log(this.getAttribute("id"))
+                        console.log(this.getAttribute("value"))
+                        price_with_zipcode.push([this.getAttribute("id"), this.getAttribute("value")])
+                        d3.selectAll('path')
+                        .data(price_with_zipcode)
+                        .attr("fill", function(d) {
+                            console.log(this)
+                            console.log(this.id)
+                
+                        })
                         return "visible"
                     } else {
                         return "hidden"
                     }
                 })
             })
-        
+            console.log(price_with_zipcode)
         }
+
+        
         
 });
 
