@@ -16,23 +16,33 @@
 </head>
 
 <body>
-    <p>Create a Map</p>
-    <div id="app"></div>
-    
-   
-    <div id="sliderContainer">
-        <input id="yearslide" type="range" min="0" max="9" value="0" step="1"/><br>
-        <span id="year-range">2010</span>
-        <br>
-        <input id="typeslide" type="range" min="0" max="3" value="0" step="1"/><br>
-        <span id="type-range">Studio</span>
+    <div id="side-bar">
+        <p id="price-compare-background-text">Click on map to add areas for comparison</p>
+        <div id="price-compare">
+            <h3>Start price comparison</h3>
+            
+        </div>
     </div>
+    <div>
+        <p id="main-title">Manhattan Rental Price Study</p>
+        <p id="bar-chart-title">Monthly rental price</p>
+        <div id="chart">
+            <p id="bar-chart-background-text">Hover on map to see rental price by month</p>
+        </div>
+        <div id="app"></div>
+        
+    
+        <div id="sliderContainer">
+            <p>Select Year and Apartment Type to View the Data</p>
+            <input id="yearslide" type="range" min="0" max="9" value="0" step="1"/><br>
+            <span id="year-range">2010</span>
+            <br>
+            <input id="typeslide" type="range" min="0" max="3" value="0" step="1"/><br>
+            <span id="type-range">Studio</span>
+        </div>
 
-    <div id="chart"></div>
-
-    <div id="color-box"></div>
-
-    <div id="price-compare"></div>
+        <div id="color-box"></div>
+    </div>
 
 
 </body>

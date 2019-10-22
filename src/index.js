@@ -61,13 +61,62 @@ window.addEventListener('DOMContentLoaded', () => {
             return myColor(colorCode);  
         }
 
-        //price-to-color box
+         //price-to-color box
+        var priceRange1 = [500, 1000, 1500, 2000, 2500, 3000, 3500, 4000];
+        var priceRange2 = [4500, 5000, 5500, 6000, 6500, 7000, 7500, 8000];
+        //[1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3250, 3500, 3750, 4000, 4250, 4500, 4750, 5000, 5250, 5500, 5750, 6000, 6250, 6500, 6750, 7000, 7250, 7500, 7750, 8000];
         var svgColor = d3.select( "#color-box" )
-                    .append( "svg" )
-                    .attr( "width", "150px" )
-                    .attr( "height", "220px" )
-                    .attr( "class", "color-box")
+        .append( "svg" )
+        .attr( "width", "100%" )
+        .attr( "height", "60px" )
+        .attr( "class", "color-box")
 
+        svgColor.selectAll("rect.color-box-color1")
+        .data(priceRange1)
+        .enter()
+        .append("rect")
+        .attr("x", function(d, i) {
+            return 120 * i + 5
+        })
+        .attr("y", "10px")  
+        .attr("height", "15px")  
+        .attr("width", "15px")
+        .style("fill", function(d) { return convertPriceToColor(d)})
+
+        svgColor.selectAll("rect.color-box-color2")
+        .data(priceRange2)
+        .enter()
+        .append("rect")
+        .attr("x", function(d, i) {
+            return 120 * i + 5
+        })
+        .attr("y", "35px")  
+        .attr("height", "15px")  
+        .attr("width", "15px")
+        .style("fill", function(d) { return convertPriceToColor(d)})
+
+        svgColor.selectAll("text.color-box-text1")
+                .data(priceRange1)
+                .enter()
+                .append("text")
+                .text(function(d) {return `${d} - ${d + 499}`})
+                .attr("y", 23)
+                .attr("x", function(d, i) {
+                    return 120 * i + 25
+                })
+                .attr("fill", "white")
+
+        svgColor.selectAll("text.color-box-text2")
+                .data(priceRange2)
+                .enter()
+                .append("text")
+                .text(function(d) {return `${d} - ${d + 499}`})
+                .attr("y", 48)
+                .attr("x", function(d, i) {
+                    return 120 * i + 25
+                })
+                .attr("fill", "white")
+            
 
         function pinDataToMap(coord, apt_type, data) {
             var gg = svg.selectAll()
@@ -88,38 +137,17 @@ window.addEventListener('DOMContentLoaded', () => {
             .attr("cy", albersProjection(coord)[1])
             .attr("r", "2px")
             .attr("fill", "#ffffff")
-            // .attr("fill", function(d) {
-            //     return convertPriceToColor(d[1])
-            // })
             .attr("class", function(d) {return `Y${d[0]} ${apt_type}`})
             .style("visibility", "hidden")
 
-            // gg.append("line")
-            // .attr("x1", albersProjection(coord)[0])
-            // .attr("y1", albersProjection(coord)[1] - 3)
-            // .attr("x2", albersProjection(coord)[0])
-            // .attr("y2", function(d) {return albersProjection(coord)[1] - d[1]/50})
-            // .attr("stroke-width", 1)
-            // .attr("stroke", function(d) {
-            //     return convertPriceToColor(d[1])
-            // })
-            // .attr("class", function(d) {return `Y${d[0]} ${apt_type}`})
-            // .style("visibility", "hidden")
-            let aptChart = {"MRPST": "studio", "MRP1B": "One Bedroom", "MRP2B": "Two Bedroom", "MRP3B": "Three Bedroom"}
+            let aptChart = {"MRPST": "studio", "MRP1B": "OneBedroom", "MRP2B": "TwoBedroom", "MRP3B": "ThreeBedroom"}
             console.log(apt_type)
             gg.append("text")
-            // .text(function(d) {return `${aptChart[apt_type]} : ${d[0]} : ${Math.floor(d[1])}`})
             .text(function(d) {return Math.floor(d[1])})
             .attr("x", albersProjection(coord)[0] - 5)
-            // .attr("y", function(d) {return albersProjection(coord)[1] - d[1]/50})
             .attr("y", albersProjection(coord)[1] - 5)
             .attr("font-size", "10px")
             .style("fill", "white")
-            // .style("fill", function(d) {
-            //     return convertPriceToColor(d[1])
-            // })
-            // .attr("class", function(d) {return `Y${d[0]} ${apt_type}`})
-            // .style("visibility", "hidden")
 
             .on("click", function(d) {
 
@@ -129,16 +157,17 @@ window.addEventListener('DOMContentLoaded', () => {
                 var svgPriceCompare = d3.select("#price-compare")
                     .append("svg")
                     .attr("id", `Y${d[0]}-${aptChart[apt_type]}-${d[2]}`)
-                    .attr("width", "220px")
-                    .attr("height", "80px")
+                    .attr("width", "100%")
+                    .attr("height", "90px")
                     .attr("class", "price-compare")
+                    .style("background-color", convertPriceToColor(d[1]))
                     
                 
                 var closingButtonContainer = svgPriceCompare.selectAll("rect")
                 .data([1])
                 .enter()
                 .append("rect")
-                .attr("x", "195px")
+                .attr("x", "90%")
                 .attr("y", "5px")  
                 .attr("height", "15px")  
                 .attr("width", "15px")  
@@ -148,34 +177,52 @@ window.addEventListener('DOMContentLoaded', () => {
                 svgPriceCompare.append("text")
                 .text('x')
                 .attr("y", 17)
-                .attr("x", 197)
+                .attr("x", "91%")
                 .attr("fill", "white")
                 .attr("class", "closing-button-text")
                 .attr("font-family", "sans-serif")
                 .on("click", function() {
+                    console.log(`#Y${d[0]}-${aptChart[apt_type]}-${d[2]}`)
                     d3.select(`#Y${d[0]}-${aptChart[apt_type]}-${d[2]}`).remove();
                 })
 
+
                 svgPriceCompare.append("text")
-                .text(`${d[0]} avg ${aptChart[apt_type]} price in ${d[2]}:`)
+                .text(`Year: ${d[0]}`)
+                .attr("y", 20)
+                .attr("x", 10)
+                .attr("fill", "white")
+                .attr("font-size", "14px")
+                .attr("font-family", "sans-serif")
+                .attr("class", "compare-inividual-box")
+
+                svgPriceCompare.append("text")
+                .text(`Apartment type: ${aptChart[apt_type]}`)
                 .attr("y", 40)
                 .attr("x", 10)
                 .attr("fill", "white")
                 .attr("font-size", "14px")
                 .attr("font-family", "sans-serif")
+                .attr("class", "compare-inividual-box")
+
+                svgPriceCompare.append("text")
+                .text(`ZipCode: ${d[2]}`)
+                .attr("y", 60)
+                .attr("x", 10)
+                .attr("fill", "white")
+                .attr("font-size", "14px")
+                .attr("font-family", "sans-serif")
+                .attr("class", "compare-inividual-box")
 
 
                 svgPriceCompare.append("text")
-                .text(`$${Math.floor(d[1])}`)
-                .attr("y", 65)
-                .attr("x", 80)
+                .text(`Rental Price: $${Math.floor(d[1])}`)
+                .attr("y", 80)
+                .attr("x", 10)
                 .attr("fill", "white")
+                .attr("font-size", "14px")
                 .attr("font-family", "sans-serif")
         
-                
-
- 
-
             })
 
             .on("mouseover", function(d) {
@@ -191,8 +238,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     .attr( "width", "350px" )
                     .attr( "height", "220px" )
                     .attr( "class", "bar-chart")
-                    // console.log(d)
-                // var dataset = [80, 100, 56, 120, 180, 30, 40, 120, 160];
+            
                 var dataset = d[3]
 
                 var barPadding = 5;  
@@ -203,7 +249,6 @@ window.addEventListener('DOMContentLoaded', () => {
                     .enter()  
                     .append("rect")  
                     .attr("y", function(d) {
-                        // console.log(d)  
                         return 220 - d[1] / 40 
                     })  
                     .attr("height", function(d) {  
@@ -227,7 +272,6 @@ window.addEventListener('DOMContentLoaded', () => {
                         return barWidth * i  
                    })
                     .attr("y", function(d) {
-                        // console.log(d)  
                         return 220 - d[1] / 40
                     })
                     .attr("dy", "1em")
@@ -245,10 +289,8 @@ window.addEventListener('DOMContentLoaded', () => {
                         return barWidth * i  
                    })
                     .attr("y", function(d) {
-                        // console.log(d)  
                         return "215px"
                     })
-                    // .attr("dy", "200px")
                     .text(function(d) {
                         let monthChart = {"01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May", "06": "Jun", "07": "Jul", "08": "Aug", "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dec"}
                         return monthChart[d[0]]
@@ -261,7 +303,8 @@ window.addEventListener('DOMContentLoaded', () => {
                      .attr("class", "bar-chart-title")
                      .attr("x", "10px")
                      .attr("y", "15px")
-                     .text(`Year ${d[0]} ${aptChart[apt_type]} monthly rental price`)
+                     .text(`Year: ${d[0]} Apartment Type: ${aptChart[apt_type]} ZipCode: ${d[2]}`)
+                     .attr("font-size", "10px")
                      .attr("font-weight", "bold")
                 
 
@@ -272,7 +315,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 d3.select(this)
                     .transition()
                     .duration("200")
-                    .attr("font-size", "10px")
+                    .attr("font-size", "15px")
                     .style("fill", "#efb85e")
 
                 d3.select(".bar-chart").remove();
@@ -280,13 +323,10 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         function pinFile(jsonData) {
-            // console.log(jsonData.dataset)
             let zip = jsonData.dataset.dataset_code.split("_")[0].slice(1);
             let coord = [zipcodeConverter[zip][1], zipcodeConverter[zip][0]];
             let apt_type = jsonData.dataset.dataset_code.split("_")[1]
-            // console.log(apt_type)
             let year_avg = {}
-            // let month_price = {}
             let data = []
             jsonData.dataset.data.forEach(entry => {
                 let year = entry[0].split("-")[0]
@@ -297,21 +337,15 @@ window.addEventListener('DOMContentLoaded', () => {
                 } else {
                     year_avg[year].push([month, rent]);
                 }
-                // month_price[entry[0]] = entry[1];
             })
-            // console.log(year_avg)
-            // console.log(month_price)
+
             Object.keys(year_avg).forEach(year => {
                 let sum = 0;
                 year_avg[year].forEach(monthPricePair => {
-                    // console.log(monthPricePair)
-                    // console.log(monthPricePair[1])
                     sum += monthPricePair[1];
                 })
-                // let sum = year_avg[year].reduce((a, b) => a[1] + b[1]);
+          
                 let avg = sum / year_avg[year].length;
-                // console.log(sum)
-                // console.log(avg)
                 data.push([year, avg, zip, year_avg[year]])
             })
            
@@ -328,32 +362,27 @@ window.addEventListener('DOMContentLoaded', () => {
                 .attr( "stroke", "#ffffff")
                 .attr( "d", geoPath )
                 .attr( "id", function(d) {
-                    // console.log('find zip')
-                    // console.log(d.properties.zcta)
                     return d.properties.zcta;
                 })
                
        
             zipcodeForStudio.forEach(zip => {
-                // console.log(zip)
                 pinFile(require(`../data/studio_by_zip/studio_z${zip}.json`));
             })
 
             zipcodeForOneBed.forEach(zip => {
-                // console.log(zip)
                 pinFile(require(`../data/onebed_by_zip/onebed_z${zip}.json`));
             })
 
             zipcodeForTwoBed.forEach(zip => {
-                // console.log(zip)
                 pinFile(require(`../data/twobed_by_zip/twobed_z${zip}.json`));
             })
 
             zipcodeForThreeBed.forEach(zip => {
-                // console.log(zip)
                 pinFile(require(`../data/threebed_by_zip/threebed_z${zip}.json`));
             })
         })
+
 
         // for slider
         var inputYear = "2010";
@@ -388,7 +417,6 @@ window.addEventListener('DOMContentLoaded', () => {
         function update_year(value) {
             document.getElementById("year-range").innerHTML=year[value];
             inputYear = year[value];
-            // console.log(`Y${inputYear}`)
             var price_with_zipcode_for_year = {};
 
             year.forEach(year => {
@@ -435,11 +463,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 return convertPriceToColor(price_with_zipcode_for_type[this.id])
             })
         }
-
-        
-
-    
-        
+       
 });
 
 
