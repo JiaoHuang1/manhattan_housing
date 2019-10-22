@@ -10,12 +10,56 @@ body {
 }
 
 
-
-
 #sliderContainer {
     margin-left: 55%;
     position: absolute;
     top: 425px;
     left: 0;
+}
+
+.bar-chart {
+    background-color: #c7c7c7;
+    position: absolute;
+    top: 300px;
+    left: 0;
+    margin-left: 950px;
+}
+
+.bar-chart-title {
+    align-items: center;
+}
+
+.color-box {
+    background: #c7c7c7;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    margin-left: 1150px;
+}
+
+.price-compare {
+    background: #c7c7c7;
+    margin-bottom: 5px;
+    border-radius: 3px;
+ 
+}
+
+#price-compare {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    margin-left: 50px;
+}
+
+.closing-button {
+    fill: transparent;
+}
+
+.closing-button-text {
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    border: 1px solid white;
 }
 
