@@ -258,7 +258,9 @@ window.addEventListener('DOMContentLoaded', () => {
                     .attr( "height", "220px" )
                     .attr( "class", "bar-chart")
             
-                var dataset = d[3]
+                var dataset = d[3].reverse();
+                // console.log([1, 2, 3].reverse())
+                // console.log(dataset)
 
                 var barPadding = 5;  
                 var barWidth = (350 / 12);
@@ -326,16 +328,13 @@ window.addEventListener('DOMContentLoaded', () => {
                      .attr("font-size", "10px")
                      .attr("font-weight", "bold")
                 
-
-                    
-
             })
             .on("mouseout", function(d) {
                 d3.select(this)
                     .transition()
                     .duration("200")
-                    .attr("font-size", "15px")
-                    .style("fill", "#efb85e")
+                    .attr("font-size", "12px")
+                    .style("fill", "#ffffff")
 
                 d3.select(".bar-chart").remove();
             })
@@ -385,11 +384,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 })
                 .on("mouseover", function(d) {
                     d3.select(this)
-                        // .transition()
-                        // .duration('200')
                         .attr("stroke", function() {
                             if (this.getAttribute("fill") !== "#c7c7c7") {
-                                // return this.getAttribute("fill");
                                 return "red"
                             }
                         })
@@ -402,11 +398,10 @@ window.addEventListener('DOMContentLoaded', () => {
                         
                         .style("fill", function() {
                             if (this.getAttribute("fill") !== "#c7c7c7") {
-                                // return this.getAttribute("fill");
                                 return "red"
                             }
                         })
-                       
+         
                 })
                 .on("mouseout", function(d) {
                     d3.select(this)

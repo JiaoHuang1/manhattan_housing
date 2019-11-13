@@ -67,7 +67,7 @@ body {
     width: 330px;
     margin: 0;
     text-align: center;
-    color: darkgray;
+    color: black;
     font-size: 20px;
     font-weight: bold;
     padding: 10px;
@@ -91,13 +91,13 @@ body {
     border-radius: 3px;
     z-index: 1;
     text-align: center;
+    
  
 }
 
 #price-compare {
     display: flex;
     width: 80%;
-    
     flex-direction: column;
     align-items: center;
     
@@ -114,7 +114,8 @@ body {
 }
 
 #price-compare-background-text {
-    color: rgb(231, 228, 228);
+    color: darkgray;
+    font-weight: bold;
     position: absolute;
     top: 200px;
     width: 250px;
@@ -126,7 +127,7 @@ body {
 
 h3 {
     text-align: center;
-    color: darkgray;
+    color: black;
 }
 
 #main-title {
@@ -142,13 +143,14 @@ h3 {
 }
 
 #bar-chart-background-text {
-    color: rgb(231, 228, 228);
+    color: darkgray;
     position: absolute;
     font-size: 30px;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     width: 350px;
     z-index: 0;
+    font-weight: bold;
 }
 
 .closing-button-text {
