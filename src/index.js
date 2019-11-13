@@ -259,9 +259,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     .attr( "class", "bar-chart")
             
                 var dataset = d[3].reverse();
-                // console.log([1, 2, 3].reverse())
-                // console.log(dataset)
-
+           
                 var barPadding = 5;  
                 var barWidth = (350 / 12);
                 
