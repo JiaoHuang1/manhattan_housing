@@ -117,20 +117,33 @@ window.addEventListener('DOMContentLoaded', () => {
                 })
                 .attr("fill", "white")
             
-
+        var price_with_zipcode_for_year1 = {};
         function pinDataToMap(coord, apt_type, data) {
+            
             var gg = svg.selectAll()
                         .data(data)
                         .enter()
                         .append("g")
                         .attr("class", function(d) {return `Y${d[0]} ${apt_type}`})
-                        .style("visibility", "hidden")
+                        .style("visibility", function(d) {
+                            if (d[0] === "2010" && apt_type === "MRPST") {
+                                price_with_zipcode_for_year1[d[2]] = d[1];
+                                return "visible"
+                            } else {
+                                return "hidden"
+                            }
+                        })
                         .attr("value", function(d) {
                             return Math.floor(d[1])
                         })
                         .attr("id", function(d) {
                             return d[2]
                         })
+           
+            d3.selectAll('path')
+            .attr("fill", function(d) {
+                return convertPriceToColor(price_with_zipcode_for_year1[d.properties.zcta])
+            })
 
             gg.append("circle")
             .attr("cx", albersProjection(coord)[0])
@@ -138,10 +151,16 @@ window.addEventListener('DOMContentLoaded', () => {
             .attr("r", "2px")
             .attr("fill", "#ffffff")
             .attr("class", function(d) {return `Y${d[0]} ${apt_type}`})
-            .style("visibility", "hidden")
+            .style("visibility", function(d) {
+              if (d[0] === "2010" && apt_type === "MRPST") {
+                  return "visible"
+              } else {
+                  return "hidden"
+              }
+            })
 
             let aptChart = {"MRPST": "studio", "MRP1B": "OneBedroom", "MRP2B": "TwoBedroom", "MRP3B": "ThreeBedroom"}
-            console.log(apt_type)
+    
             gg.append("text")
             .text(function(d) {return Math.floor(d[1])})
             .attr("x", albersProjection(coord)[0] - 5)
@@ -364,7 +383,43 @@ window.addEventListener('DOMContentLoaded', () => {
                 .attr( "id", function(d) {
                     return d.properties.zcta;
                 })
-               
+                .on("mouseover", function(d) {
+                    d3.select(this)
+                        // .transition()
+                        // .duration('200')
+                        .attr("stroke", function() {
+                            if (this.getAttribute("fill") !== "#c7c7c7") {
+                                // return this.getAttribute("fill");
+                                return "red"
+                            }
+                        })
+                       
+                        .attr("stroke-width", function() {
+                            if (this.getAttribute("fill") !== "#c7c7c7") {
+                                return "5%";
+                            }
+                        })
+                        
+                        .style("fill", function() {
+                            if (this.getAttribute("fill") !== "#c7c7c7") {
+                                // return this.getAttribute("fill");
+                                return "red"
+                            }
+                        })
+                       
+                })
+                .on("mouseout", function(d) {
+                    d3.select(this)
+                        // .transition()
+                        // .duration('200')
+                        .attr("stroke", "#ffffff")
+                        .attr("stroke-width", "1px")
+                        .style("fill", function() {
+                            if (this.getAttribute("fill") !== "#c7c7c7") {
+                            return this.getAttribute("fill");
+                        }
+                    }) 
+                })
        
             zipcodeForStudio.forEach(zip => {
                 pinFile(require(`../data/studio_by_zip/studio_z${zip}.json`));
