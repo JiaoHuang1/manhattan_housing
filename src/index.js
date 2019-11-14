@@ -134,10 +134,15 @@ window.addEventListener('DOMContentLoaded', () => {
                             }
                         })
                         .attr("value", function(d) {
+                            // console.log(d[1])
                             return Math.floor(d[1])
                         })
                         .attr("id", function(d) {
                             return d[2]
+                        })
+                        .attr("tag", function(d) {
+                            // console.log(d[3])
+                            return d[3]
                         })
            
             d3.selectAll('path')
@@ -201,7 +206,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 .attr("class", "closing-button-text")
                 .attr("font-family", "sans-serif")
                 .on("click", function() {
-                    console.log(`#Y${d[0]}-${aptChart[apt_type]}-${d[2]}`)
                     d3.select(`#Y${d[0]}-${aptChart[apt_type]}-${d[2]}`).remove();
                 })
 
@@ -257,9 +261,8 @@ window.addEventListener('DOMContentLoaded', () => {
                     .attr( "width", "350px" )
                     .attr( "height", "220px" )
                     .attr( "class", "bar-chart")
-            
-                var dataset = d[3].reverse();
-           
+          
+                var dataset = d[3]
                 var barPadding = 5;  
                 var barWidth = (350 / 12);
                 
@@ -297,7 +300,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     .text(function(d) { return Math.floor(d[1]); })
                     .attr("font-size", "10px")
                     .attr("font-weight", "bold")
-
+                    .attr("fill", "white")
 
                     svg1.selectAll(".month")  		
                     .data(dataset)
@@ -306,25 +309,25 @@ window.addEventListener('DOMContentLoaded', () => {
                     .attr("class","month-label")
                     .attr("x", function (d, i) {  
                         return barWidth * i  
-                   })
+                    })
                     .attr("y", function(d) {
                         return "215px"
                     })
                     .text(function(d) {
                         let monthChart = {"01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May", "06": "Jun", "07": "Jul", "08": "Aug", "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dec"}
                         return monthChart[d[0]]
-                     })
-                     .attr("font-size", "12px")
-                     .attr("font-weight", "bold"); 
-
+                    })
+                    .attr("font-size", "12px")
+                    .attr("font-weight", "bold")
+                    .attr("fill", "white")
                      
-                     svg1.append("text")
-                     .attr("class", "bar-chart-title")
-                     .attr("x", "10px")
-                     .attr("y", "15px")
-                     .text(`Year: ${d[0]} Apartment Type: ${aptChart[apt_type]} ZipCode: ${d[2]}`)
-                     .attr("font-size", "10px")
-                     .attr("font-weight", "bold")
+                    svg1.append("text")
+                    .attr("class", "bar-chart-title")
+                    .attr("x", "10px")
+                    .attr("y", "25px")
+                    .text(`${d[0]} monthly rental for ${aptChart[apt_type]} at ${d[2]}`)
+                    .attr("font-size", "15px")
+                    .attr("font-weight", "bold")
                 
             })
             .on("mouseout", function(d) {
@@ -337,22 +340,32 @@ window.addEventListener('DOMContentLoaded', () => {
                 d3.select(".bar-chart").remove();
             })
         }
-
+        
+        let monthlyRentalData = {};
+        let aptTypeForZipHover = "MRPST";
+        
         function pinFile(jsonData) {
             let zip = jsonData.dataset.dataset_code.split("_")[0].slice(1);
             let coord = [zipcodeConverter[zip][1], zipcodeConverter[zip][0]];
             let apt_type = jsonData.dataset.dataset_code.split("_")[1]
             let year_avg = {}
             let data = []
+            if (!monthlyRentalData[zip]) {
+                monthlyRentalData[zip] = {};
+            } 
+
+
+            
             jsonData.dataset.data.forEach(entry => {
                 let year = entry[0].split("-")[0]
                 let month = entry[0].split("-")[1]
                 let rent = entry[1]
                 if (!year_avg[year]) {
-                    year_avg[year] = [[month, rent]];
+                    year_avg[year] = [[month, rent]];    
                 } else {
-                    year_avg[year].push([month, rent]);
+                    year_avg[year].unshift([month, rent]);
                 }
+              
             })
 
             Object.keys(year_avg).forEach(year => {
@@ -363,8 +376,16 @@ window.addEventListener('DOMContentLoaded', () => {
           
                 let avg = sum / year_avg[year].length;
                 data.push([year, avg, zip, year_avg[year]])
+                if (!monthlyRentalData[zip][apt_type]) {
+                    monthlyRentalData[zip][apt_type] = [[year, Math.floor(avg)]];
+                } else {
+                    monthlyRentalData[zip][apt_type].push([year, Math.floor(avg)])
+                }
+        
+                
             })
            
+
             pinDataToMap(coord, apt_type, data);
         }
 
@@ -399,8 +420,84 @@ window.addEventListener('DOMContentLoaded', () => {
                                 return "red"
                             }
                         })
-         
-                })
+
+                        if (this.getAttribute("fill") !== "#c7c7c7") {
+
+                            var svg2 = d3.select( "#chart" )
+                            .append( "svg" )
+                            .attr( "width", "350px" )
+                            .attr( "height", "220px" )
+                            .attr( "class", "bar-chart")
+
+                            let avgRentalPriceByZip = monthlyRentalData[this.getAttribute("id")][aptTypeForZipHover]
+                            var barPadding = 5;  
+                            var barWidth = (350 / 12);
+                            
+                            var barChart = svg2.selectAll("rect")  
+                            .data(avgRentalPriceByZip)  
+                            .enter()  
+                            .append("rect")  
+                            .attr("y", function(d) {
+                                return 220 - d[1] / 40 
+                            })  
+                            .attr("height", function(d) {  
+                                return d[1] / 40;  
+                            })  
+                            .attr("width", barWidth - barPadding)  
+                            .attr("transform", function (d, i) {  
+                                 var translate = [barWidth * i, 0];  
+                                 return "translate("+ translate +")";
+                            })
+                            .attr("fill", function(d) {
+                                return convertPriceToColor(d[1])
+                            })
+                            
+                            svg2.selectAll(".price")  		
+                            .data(avgRentalPriceByZip)
+                            .enter()
+                            .append("text")
+                            .attr("class","price-label")
+                            .attr("x", function (d, i) {  
+                                return barWidth * i  
+                            })
+                            .attr("y", function(d) {
+                                return 220 - d[1] / 40
+                            })
+                            .attr("dy", "1em")
+                            .text(function(d) { return Math.floor(d[1]); })
+                            .attr("font-size", "10px")
+                            .attr("font-weight", "bold")
+                            .attr("fill", "white")
+
+                            svg2.selectAll(".year")  		
+                            .data(avgRentalPriceByZip)
+                            .enter()
+                            .append("text")
+                            .attr("class","year-label")
+                            .attr("x", function (d, i) {  
+                                return barWidth * i  
+                            })
+                            .attr("y", function(d) {
+                                return "215px"
+                            })
+                            .text(function(d) {
+                                return d[0]
+                            })
+                            .attr("font-size", "12px")
+                            .attr("font-weight", "bold")
+                            .attr("fill", "white")
+
+                            svg2.append("text")
+                            .attr("class", "bar-chart-title")
+                            .attr("x", "10px")
+                            .attr("y", "25px")
+                            .text(`Average rental price over the years at ${this.getAttribute("id")}`)
+                            .attr("font-size", "15px")
+                            .attr("font-weight", "bold")
+                        }
+
+                            
+                })  
                 .on("mouseout", function(d) {
                     d3.select(this)
                         // .transition()
@@ -411,7 +508,10 @@ window.addEventListener('DOMContentLoaded', () => {
                             if (this.getAttribute("fill") !== "#c7c7c7") {
                             return this.getAttribute("fill");
                         }
-                    }) 
+                    })
+
+                    d3.select(".bar-chart").remove();
+                    
                 })
        
             zipcodeForStudio.forEach(zip => {
@@ -491,6 +591,7 @@ window.addEventListener('DOMContentLoaded', () => {
         function update_type(value) {
             document.getElementById("type-range").innerHTML=type[value];
             inputType = type[value];
+            aptTypeForZipHover = convertType(type[value]).slice(1);
             var price_with_zipcode_for_type = {};
 
             type.forEach(type => {

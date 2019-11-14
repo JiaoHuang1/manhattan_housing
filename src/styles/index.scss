@@ -27,7 +27,7 @@ body {
 #sliderContainer {
     margin-left: 60%;
     position: absolute;
-    top: 600px;
+    top: 550px;
     left: 0;
     font-family: Arial, Helvetica, sans-serif; 
     font-weight: bold;
@@ -145,12 +145,14 @@ h3 {
 #bar-chart-background-text {
     color: darkgray;
     position: absolute;
-    font-size: 30px;
+    font-size: 20px;
     font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
+    text-align: left;
     width: 350px;
     z-index: 0;
     font-weight: bold;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .closing-button-text {
