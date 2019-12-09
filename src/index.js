@@ -150,195 +150,195 @@ window.addEventListener('DOMContentLoaded', () => {
                 return convertPriceToColor(price_with_zipcode_for_year1[d.properties.zcta])
             })
 
-            gg.append("circle")
-            .attr("cx", albersProjection(coord)[0])
-            .attr("cy", albersProjection(coord)[1])
-            .attr("r", "2px")
-            .attr("fill", "#ffffff")
-            .attr("class", function(d) {return `Y${d[0]} ${apt_type}`})
-            .style("visibility", function(d) {
-              if (d[0] === "2010" && apt_type === "MRPST") {
-                  return "visible"
-              } else {
-                  return "hidden"
-              }
-            })
+            // gg.append("circle")
+            // .attr("cx", albersProjection(coord)[0])
+            // .attr("cy", albersProjection(coord)[1])
+            // .attr("r", "2px")
+            // .attr("fill", "#ffffff")
+            // .attr("class", function(d) {return `Y${d[0]} ${apt_type}`})
+            // .style("visibility", function(d) {
+            //   if (d[0] === "2010" && apt_type === "MRPST") {
+            //       return "visible"
+            //   } else {
+            //       return "hidden"
+            //   }
+            // })
 
-            let aptChart = {"MRPST": "studio", "MRP1B": "OneBedroom", "MRP2B": "TwoBedroom", "MRP3B": "ThreeBedroom"}
+            // let aptChart = {"MRPST": "studio", "MRP1B": "OneBedroom", "MRP2B": "TwoBedroom", "MRP3B": "ThreeBedroom"}
     
-            gg.append("text")
-            .text(function(d) {return Math.floor(d[1])})
-            .attr("x", albersProjection(coord)[0] - 5)
-            .attr("y", albersProjection(coord)[1] - 5)
-            .attr("font-size", "10px")
-            .style("fill", "white")
+            // gg.append("text")
+            // .text(function(d) {return Math.floor(d[1])})
+            // .attr("x", albersProjection(coord)[0] - 5)
+            // .attr("y", albersProjection(coord)[1] - 5)
+            // .attr("font-size", "10px")
+            // .style("fill", "white")
 
-            .on("click", function(d) {
+            // .on("click", function(d) {
+            //     console.log("click")
+            //     d3.select(this)
+            //     .style("fill", "red")
 
-                d3.select(this)
-                .style("fill", "red")
-
-                var svgPriceCompare = d3.select("#price-compare")
-                    .append("svg")
-                    .attr("id", `Y${d[0]}-${aptChart[apt_type]}-${d[2]}`)
-                    .attr("width", "100%")
-                    .attr("height", "90px")
-                    .attr("class", "price-compare")
-                    .style("background-color", convertPriceToColor(d[1]))
+                // var svgPriceCompare = d3.select("#price-compare")
+                //     .append("svg")
+                //     .attr("id", `Y${d[0]}-${aptChart[apt_type]}-${d[2]}`)
+                //     .attr("width", "100%")
+                //     .attr("height", "90px")
+                //     .attr("class", "price-compare")
+                //     .style("background-color", convertPriceToColor(d[1]))
                     
                 
-                var closingButtonContainer = svgPriceCompare.selectAll("rect")
-                .data([1])
-                .enter()
-                .append("rect")
-                .attr("x", "90%")
-                .attr("y", "5px")  
-                .attr("height", "15px")  
-                .attr("width", "15px")  
-                .attr("class", "closing-button")
-                .style("stroke", "white")
+            //     var closingButtonContainer = svgPriceCompare.selectAll("rect")
+            //     .data([1])
+            //     .enter()
+            //     .append("rect")
+            //     .attr("x", "90%")
+            //     .attr("y", "5px")  
+            //     .attr("height", "15px")  
+            //     .attr("width", "15px")  
+            //     .attr("class", "closing-button")
+            //     .style("stroke", "white")
 
-                svgPriceCompare.append("text")
-                .text('x')
-                .attr("y", 17)
-                .attr("x", "91%")
-                .attr("fill", "white")
-                .attr("class", "closing-button-text")
-                .attr("font-family", "sans-serif")
-                .on("click", function() {
-                    d3.select(`#Y${d[0]}-${aptChart[apt_type]}-${d[2]}`).remove();
-                })
-
-
-                svgPriceCompare.append("text")
-                .text(`Year: ${d[0]}`)
-                .attr("y", 20)
-                .attr("x", 10)
-                .attr("fill", "white")
-                .attr("font-size", "14px")
-                .attr("font-family", "sans-serif")
-                .attr("class", "compare-inividual-box")
-
-                svgPriceCompare.append("text")
-                .text(`Apartment type: ${aptChart[apt_type]}`)
-                .attr("y", 40)
-                .attr("x", 10)
-                .attr("fill", "white")
-                .attr("font-size", "14px")
-                .attr("font-family", "sans-serif")
-                .attr("class", "compare-inividual-box")
-
-                svgPriceCompare.append("text")
-                .text(`ZipCode: ${d[2]}`)
-                .attr("y", 60)
-                .attr("x", 10)
-                .attr("fill", "white")
-                .attr("font-size", "14px")
-                .attr("font-family", "sans-serif")
-                .attr("class", "compare-inividual-box")
+            //     svgPriceCompare.append("text")
+            //     .text('x')
+            //     .attr("y", 17)
+            //     .attr("x", "91%")
+            //     .attr("fill", "white")
+            //     .attr("class", "closing-button-text")
+            //     .attr("font-family", "sans-serif")
+            //     .on("click", function() {
+            //         d3.select(`#Y${d[0]}-${aptChart[apt_type]}-${d[2]}`).remove();
+            //     })
 
 
-                svgPriceCompare.append("text")
-                .text(`Rental Price: $${Math.floor(d[1])}`)
-                .attr("y", 80)
-                .attr("x", 10)
-                .attr("fill", "white")
-                .attr("font-size", "14px")
-                .attr("font-family", "sans-serif")
+            //     svgPriceCompare.append("text")
+            //     .text(`Year: ${d[0]}`)
+            //     .attr("y", 20)
+            //     .attr("x", 10)
+            //     .attr("fill", "white")
+            //     .attr("font-size", "14px")
+            //     .attr("font-family", "sans-serif")
+            //     .attr("class", "compare-inividual-box")
+
+            //     svgPriceCompare.append("text")
+            //     .text(`Apartment type: ${aptChart[apt_type]}`)
+            //     .attr("y", 40)
+            //     .attr("x", 10)
+            //     .attr("fill", "white")
+            //     .attr("font-size", "14px")
+            //     .attr("font-family", "sans-serif")
+            //     .attr("class", "compare-inividual-box")
+
+            //     svgPriceCompare.append("text")
+            //     .text(`ZipCode: ${d[2]}`)
+            //     .attr("y", 60)
+            //     .attr("x", 10)
+            //     .attr("fill", "white")
+            //     .attr("font-size", "14px")
+            //     .attr("font-family", "sans-serif")
+            //     .attr("class", "compare-inividual-box")
+
+
+            //     svgPriceCompare.append("text")
+            //     .text(`Rental Price: $${Math.floor(d[1])}`)
+            //     .attr("y", 80)
+            //     .attr("x", 10)
+            //     .attr("fill", "white")
+            //     .attr("font-size", "14px")
+            //     .attr("font-family", "sans-serif")
         
-            })
+            // })
 
-            .on("mouseover", function(d) {
-                d3.select(this)
-                    .transition()
-                    .duration('200')
-                    .attr("font-size", "20px")
-                    .style("fill", "#efb85e")
-                    .attr("font-weight", "bold")
+            // .on("mouseover", function(d) {
+            //     d3.select(this)
+            //         .transition()
+            //         .duration('200')
+            //         .attr("font-size", "20px")
+            //         .style("fill", "#efb85e")
+            //         .attr("font-weight", "bold")
 
-                var svg1 = d3.select( "#chart" )
-                    .append( "svg" )
-                    .attr( "width", "350px" )
-                    .attr( "height", "220px" )
-                    .attr( "class", "bar-chart")
+            //     var svg1 = d3.select( "#chart" )
+            //         .append( "svg" )
+            //         .attr( "width", "350px" )
+            //         .attr( "height", "220px" )
+            //         .attr( "class", "bar-chart")
           
-                var dataset = d[3]
-                var barPadding = 5;  
-                var barWidth = (350 / 12);
+            //     var dataset = d[3]
+            //     var barPadding = 5;  
+            //     var barWidth = (350 / 12);
                 
-                var barChart = svg1.selectAll("rect")  
-                    .data(dataset)  
-                    .enter()  
-                    .append("rect")  
-                    .attr("y", function(d) {
-                        return 220 - d[1] / 40 
-                    })  
-                    .attr("height", function(d) {  
-                        return d[1] / 40;  
-                    })  
-                    .attr("width", barWidth - barPadding)  
-                    .attr("transform", function (d, i) {  
-                         var translate = [barWidth * i, 0];  
-                         return "translate("+ translate +")";
-                    })
-                    .attr("fill", function(d) {
-                        return convertPriceToColor(d[1])
-                    })
+            //     var barChart = svg1.selectAll("rect")  
+            //         .data(dataset)  
+            //         .enter()  
+            //         .append("rect")  
+            //         .attr("y", function(d) {
+            //             return 220 - d[1] / 40 
+            //         })  
+        //             .attr("height", function(d) {  
+        //                 return d[1] / 40;  
+        //             })  
+        //             .attr("width", barWidth - barPadding)  
+        //             .attr("transform", function (d, i) {  
+        //                  var translate = [barWidth * i, 0];  
+        //                  return "translate("+ translate +")";
+        //             })
+        //             .attr("fill", function(d) {
+        //                 return convertPriceToColor(d[1])
+        //             })
                    
-                    svg1.selectAll(".price")  		
-                    .data(dataset)
-                    .enter()
-                    .append("text")
-                    .attr("class","price-label")
-                    .attr("x", function (d, i) {  
-                        return barWidth * i  
-                   })
-                    .attr("y", function(d) {
-                        return 220 - d[1] / 40
-                    })
-                    .attr("dy", "1em")
-                    .text(function(d) { return Math.floor(d[1]); })
-                    .attr("font-size", "10px")
-                    .attr("font-weight", "bold")
-                    .attr("fill", "white")
+        //             svg1.selectAll(".price")  		
+        //             .data(dataset)
+        //             .enter()
+        //             .append("text")
+        //             .attr("class","price-label")
+        //             .attr("x", function (d, i) {  
+        //                 return barWidth * i  
+        //            })
+        //             .attr("y", function(d) {
+        //                 return 220 - d[1] / 40
+        //             })
+        //             .attr("dy", "1em")
+        //             .text(function(d) { return Math.floor(d[1]); })
+        //             .attr("font-size", "10px")
+        //             .attr("font-weight", "bold")
+        //             .attr("fill", "white")
 
-                    svg1.selectAll(".month")  		
-                    .data(dataset)
-                    .enter()
-                    .append("text")
-                    .attr("class","month-label")
-                    .attr("x", function (d, i) {  
-                        return barWidth * i  
-                    })
-                    .attr("y", function(d) {
-                        return "215px"
-                    })
-                    .text(function(d) {
-                        let monthChart = {"01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May", "06": "Jun", "07": "Jul", "08": "Aug", "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dec"}
-                        return monthChart[d[0]]
-                    })
-                    .attr("font-size", "12px")
-                    .attr("font-weight", "bold")
-                    .attr("fill", "white")
+        //             svg1.selectAll(".month")  		
+        //             .data(dataset)
+        //             .enter()
+        //             .append("text")
+        //             .attr("class","month-label")
+        //             .attr("x", function (d, i) {  
+        //                 return barWidth * i  
+        //             })
+        //             .attr("y", function(d) {
+        //                 return "215px"
+        //             })
+        //             .text(function(d) {
+        //                 let monthChart = {"01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May", "06": "Jun", "07": "Jul", "08": "Aug", "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dec"}
+        //                 return monthChart[d[0]]
+        //             })
+        //             .attr("font-size", "12px")
+        //             .attr("font-weight", "bold")
+        //             .attr("fill", "white")
                      
-                    svg1.append("text")
-                    .attr("class", "bar-chart-title")
-                    .attr("x", "10px")
-                    .attr("y", "25px")
-                    .text(`${d[0]} monthly rental for ${aptChart[apt_type]} at ${d[2]}`)
-                    .attr("font-size", "15px")
-                    .attr("font-weight", "bold")
+        //             svg1.append("text")
+        //             .attr("class", "bar-chart-title")
+        //             .attr("x", "10px")
+        //             .attr("y", "25px")
+        //             .text(`${d[0]} monthly rental for ${aptChart[apt_type]} at ${d[2]}`)
+        //             .attr("font-size", "15px")
+        //             .attr("font-weight", "bold")
                 
-            })
-            .on("mouseout", function(d) {
-                d3.select(this)
-                    .transition()
-                    .duration("200")
-                    .attr("font-size", "12px")
-                    .style("fill", "#ffffff")
+        //     })
+        //     .on("mouseout", function(d) {
+        //         d3.select(this)
+        //             .transition()
+        //             .duration("200")
+        //             .attr("font-size", "12px")
+        //             .style("fill", "#ffffff")
 
-                d3.select(".bar-chart").remove();
-            })
+        //         d3.select(".bar-chart").remove();
+        //     })
         }
         
         let monthlyRentalData = {};
@@ -388,9 +388,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
             pinDataToMap(coord, apt_type, data);
         }
-
+        
         // Classic D3... Select non-existent elements, bind the data, append the elements, and apply attributes
         d3.json("data/manhattan_by_zip.json", newyork_data => {
+            
             g.selectAll( "path" )
                 .data( newyork_data.features )
                 .enter()
@@ -400,6 +401,93 @@ window.addEventListener('DOMContentLoaded', () => {
                 .attr( "d", geoPath )
                 .attr( "id", function(d) {
                     return d.properties.zcta;
+                })
+                .on("click", function(d) {
+                    console.log(monthlyRentalData)
+                    console.log(convertType(inputType).slice(1))
+                    let avgRentalPriceAtZip = monthlyRentalData[this.getAttribute("id")][convertType(inputType).slice(1)]
+                    let avgRentalPriceHashAtZip = {};
+                    avgRentalPriceAtZip.forEach(yearRentPair => {
+                        avgRentalPriceHashAtZip[yearRentPair[0]] = yearRentPair[1]
+                    })
+console.log("click")
+console.log(`Y${inputYear}${convertType(inputType).slice(1)}${this.getAttribute("id")}`)
+
+                    if (avgRentalPriceHashAtZip[inputYear] != undefined) {
+
+                    
+                        var svgPriceCompare = d3.select("#price-compare")
+                        .append("svg")
+                        .attr("id", `Y${inputYear}${convertType(inputType).slice(1)}${this.getAttribute("id")}`)
+                        .attr("width", "100%")
+                        .attr("height", "90px")
+                        .attr("class", "price-compare")
+                        .style("background-color", convertPriceToColor(avgRentalPriceHashAtZip[inputYear]))
+
+                        var closingButtonContainer = svgPriceCompare.selectAll("rect")
+                        .data([1])
+                        .enter()
+                        .append("rect")
+                        .attr("x", "90%")
+                        .attr("y", "5px")  
+                        .attr("height", "15px")  
+                        .attr("width", "15px")  
+                        .attr("class", "closing-button")
+                        .style("stroke", "white")
+                        
+                        let zipForPriceCompare = this.getAttribute("id");
+                        
+                        svgPriceCompare.append("text")
+                        .text('x')
+                        .attr("y", 17)
+                        .attr("x", "91%")
+                        .attr("fill", "white")
+                        .attr("class", "closing-button-text")
+                        .attr("font-family", "sans-serif")
+                        .attr("id", `${inputYear}${convertType(inputType).slice(1)}${this.getAttribute("id")}`)
+                        .on("click", function() {
+                            console.log("close")
+                            console.log(`#Y${inputYear}${convertType(inputType).slice(1)}${zipForPriceCompare}`)
+                            console.log(this)
+                            console.log(this.getAttribute("id"))
+                            d3.select(`#Y${this.getAttribute("id")}`).remove();
+                        })
+                    
+                        svgPriceCompare.append("text")
+                        .text(`Year: ${inputYear}`)
+                        .attr("y", 20)
+                        .attr("x", 10)
+                        .attr("fill", "white")
+                        .attr("font-size", "14px")
+                        .attr("font-family", "sans-serif")
+                        .attr("class", "compare-inividual-box")
+                    
+                        svgPriceCompare.append("text")
+                        .text(`Apartment type: ${inputType}`)
+                        .attr("y", 40)
+                        .attr("x", 10)
+                        .attr("fill", "white")
+                        .attr("font-size", "14px")
+                        .attr("font-family", "sans-serif")
+                        .attr("class", "compare-inividual-box")
+                    
+                        svgPriceCompare.append("text")
+                        .text(`ZipCode: ${this.getAttribute("id")}`)
+                        .attr("y", 60)
+                        .attr("x", 10)
+                        .attr("fill", "white")
+                        .attr("font-size", "14px")
+                        .attr("font-family", "sans-serif")
+                        .attr("class", "compare-inividual-box")
+                    
+                        svgPriceCompare.append("text")
+                        .text(`Rental Price: $${avgRentalPriceHashAtZip[inputYear]}`)
+                        .attr("y", 80)
+                        .attr("x", 10)
+                        .attr("fill", "white")
+                        .attr("font-size", "14px")
+                        .attr("font-family", "sans-serif")
+                    }
                 })
                 .on("mouseover", function(d) {
                     d3.select(this)
@@ -440,7 +528,7 @@ window.addEventListener('DOMContentLoaded', () => {
                             .attr("y", function(d) {
                                 return 220 - d[1] / 40 
                             })  
-                            .attr("height", function(d) {  
+                            .attr("height", function(d) {
                                 return d[1] / 40;  
                             })  
                             .attr("width", barWidth - barPadding)  
@@ -500,8 +588,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 })  
                 .on("mouseout", function(d) {
                     d3.select(this)
-                        // .transition()
-                        // .duration('200')
                         .attr("stroke", "#ffffff")
                         .attr("stroke-width", "1px")
                         .style("fill", function() {
