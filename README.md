@@ -33,9 +33,17 @@ Click on the map, the rental price of specific year, apartment type and location
 * `Webpack` + `Babel` to bundle js files
 
 ### Feature Highlights
+* Double slider: year vs apartment type
+
 ![ehah splash page](readme_img/manhattan_rental_slider.gif)
 
+* Hover effect to see the barchart of manhattan rental price trends
 
+![ehah splash page](readme_img/manhattan_rental_hover.gif)
+
+* Click to compare rental price
+
+![ehah splash page](readme_img/manhattan_rental_compare.gif)
 
 
 
