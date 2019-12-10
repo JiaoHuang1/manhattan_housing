@@ -5,15 +5,15 @@ This data reflects the rental price of different types of apartments changing ov
 
 ### Functionality & MVP
 Manhattan_housing users are able to:
-- [ ] See a 3d map of the rental prices of different types of housing at different zipcode in manhattan
-- [ ] drag the time axis to review the specific time of the rental prices
-- [ ] check/uncheck the apartment type to view a specific time of the rental prices.
-
-In addition, this project contains:
-- [ ] A production README
+- [ ] See a manhattan geography map of the rental prices of different types of housing at different zipcode
+- [ ] Click on the year and/or apartment type slider to review the specific year and apartment type of the rental prices
+- [ ] Hover on the map to review the a specific neighborhood rental price trends
+- [ ] Click on the map to compare rental price at different region and neighborhood
 
 ### Data & APIs
-rental price data is freely available through APIs.
+* Rental price by zipcode and year through zillow
+* Manhattan geojson data
+* zipcode vs latitude and longitude
 
 ### Wireframe
 This visualization consists of a single screen (a) containing a map with rental price graph (b), which is interative by years through the time bar (c) or the apartment type selection (e). It also have a block (d) to display the range of prices represented by colors.
@@ -21,19 +21,23 @@ This visualization consists of a single screen (a) containing a map with rental 
 ![alt text](Homepage.png)
 
 ### Design
-Bar height changes dynamically based on year and location of the rental apartment. On dragging the time bar, the rental price of the corresponding year on the location will be displayed at correct height and color.
+Bar height changes dynamically based on year and location of the rental apartment. On dragging the time and apartment type bar, the rental price of the corresponding year and apartment type on the location will be displayed at correct color on the map. 
+
+Hover on the map, neighborhood rental price trends will be display in barchart format
+
+Click on the map, the rental price of specific year, apartment type and location will be add to compare price section.
 
 ### Architecture & Technologies
 * `JavaScript` for data retrieval and computation
 * `D3.JS` + `HTML5` + `CSS` for interactive visualization
 * `Webpack` + `Babel` to bundle js files
 
-### Timeline:
-* select-topic and find data and APIs (1day, 10/14/2019)
-* render map on html with d3 (1day, 10/15/2019)
-* render data on map (1day, 10/16/2019)
-* render data as 3d on map (1day, 10/17/2019)
-* make data interactive with different years and different apartment types (1day, 10/18/2019)
+### Feature Highlights
+![ehah splash page](readme_img/manhattan_rental_slider.gif)
+
+
+
+
 
 
 
